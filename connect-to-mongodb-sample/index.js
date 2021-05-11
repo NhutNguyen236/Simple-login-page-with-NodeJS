@@ -1,8 +1,6 @@
 //lets require/import the mongodb native drivers.
 var mongodb = require('mongodb')
 
-var mongoose = require('mongoose')
-
 var express = require('express')
 
 var app = express()
