@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 userSchema = new Schema( {
 	user_id: Number,
 	username: String,
-	password: String,
+	password: String
 }, {collection: 'user'}),
 
 // model is very important, point to the right database(model) name to get access correctly

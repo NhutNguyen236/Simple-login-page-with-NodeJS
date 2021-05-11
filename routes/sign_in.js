@@ -30,33 +30,39 @@ router.post('/login', (req, res) => {
 
     // Login function begins
     else{
-        // User.find({username: account.username},function(err,data){
-        //     if(data){
-        //         console.log(data)
-        //         if(data.password == account.password){
-        //             //console.log("Done Login");
-        //             //req.session.userId = data.unique_id;
-        //             //console.log(req.session.userId);
-        //             res.send({"Success":"Success!"});
-                    
-        //         }else{
-        //             res.send({"Success":"Wrong password!"});
-        //         }
-        //     }else{
-        //         res.send({"Success":"This Email Is not regestered!"});
-        //     }
-        // });
-        User.find({}, function(err, result) {
-            if (err) {
-              console.log(err);
-            } else {
-              res.json(result);
-            }
-        });
+      User.find({username: account.username},function(err,data){
+          if(data.length != 0){
+              console.log(data)
+              
+              //The return type of the result here is an array of JSON so to access to it properly, put the index in.
+              let data_pass = data[0].password
+              let data_un = data[0].username
+
+              console.log('username from return data is ' + data_un)
+              console.log('password from return data is ' + data_pass)
+
+              if(data_pass == account.password){
+
+                  //console.log("Done Login");
+                  //req.session.userId = data.unique_id;
+                  //console.log(req.session.userId);
+                  res.render('index')
+                  
+              }
+              // !!! The problem here is that it will stop working when we set error with new value every time the condition occurs
+              else{
+                res.render('sign_in', {error: 'Wrong password', username: account.username, password: account.password})
+              }
+          }
+          
+          else{
+            res.render('sign_in', {error: 'This user is undefined', username: account.username, password: account.password})
+          }
+      });
     }
 
     if(error){
-        res.render('sign_in', {error: error, username: username, password: password})
+        res.render('sign_in', {error: error, username: account.username, password: account.password})
     }
 })
 
