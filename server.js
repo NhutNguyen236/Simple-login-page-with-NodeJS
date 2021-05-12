@@ -60,6 +60,6 @@ app.all('/index', index)
 app.all('/logout', sign_out)
 
 
-var server = app.listen(8080, () =>{
+var server = app.listen(PORT, () =>{
     console.log("The server is now running at http://localhost:" + PORT);
 })
