@@ -15,6 +15,7 @@ var PORT = process.env.port || 8080
 
 // Connect to DB
 // connect to database
+// MOST IMPORTANT THING IS HERE, mongodb://localhost:27017/x, x here is your DATABASE NAME
 var db = mongoose.connect('mongodb://localhost:27017/Users', {
   useNewUrlParser: true,
   useUnifiedTopology: true

@@ -14,7 +14,7 @@ userSchema = new Schema( {
 	password: String
 }),
 
-// model is very important, point to the right database(model) name to get access correctly
+// You can use the style above to define collection. And here, it is user as collection
 User = mongoose.model('Users', userSchema, 'user');
 
 // So we are now in Users.user
