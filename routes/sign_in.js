@@ -13,24 +13,30 @@ router.get('/login', (req,res) => {
 })
 
 router.post('/login', (req, res) => {
-    // Simple Form validation
-    let account = req.body
+    
+    // Make a function to render view 
+    function render_login(username, password, error){
+        return res.render('sign_in', {error: error, username: username, password: password})
+    }
 
-    console.log(account.username + " " + account.password)
+    // Simple Form validation
+    let {username, password} = req.body
+
+    console.log(username + " " + password)
 
     let error = undefined
 
-    if(!account.username){
+    if(!username){
         error = "Please enter your username 😢"
     }
 
-    else if(!account.password){
+    else if(!password){
         error = "Please enter your password 😢"
     }//End of simple validation
 
     // Login function begins
     else{
-      User.find({username: account.username},function(err,data){
+      User.find({username: username},function(err,data){
           if(data.length != 0){
               console.log(data)
               
@@ -41,7 +47,7 @@ router.post('/login', (req, res) => {
               console.log('username from return data is ' + data_un)
               console.log('password from return data is ' + data_pass)
 
-              if(data_pass == account.password){
+              if(data_pass == password){
 
                   //console.log("Done Login");
                   //req.session.userId = data.unique_id;
@@ -51,18 +57,21 @@ router.post('/login', (req, res) => {
               }
               // !!! The problem here is that it will stop working when we set error with new value every time the condition occurs
               else{
-                res.render('sign_in', {error: 'Wrong password', username: account.username, password: account.password})
+                render_login(username, password, 'Wrong password 😢')
+                //res.render('sign_in', {error: 'Wrong password', username: account.username, password: account.password})
               }
           }
           
           else{
-            res.render('sign_in', {error: 'This user is undefined', username: account.username, password: account.password})
+            render_login(username, password, 'This user is undefined 😢')
+            //res.render('sign_in', {error: 'This user is undefined', username: account.username, password: account.password})
           }
       });
     }
 
     if(error){
-        res.render('sign_in', {error: error, username: account.username, password: account.password})
+        render_login(username, password, error)
+        //res.render('sign_in', {error: error, username: account.username, password: account.password})
     }
 })
 
